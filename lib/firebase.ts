@@ -7,7 +7,7 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth"
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDEzZFmFlHu1-C9ACI1UG02JXELqR1OgwY",
-  authDomain: "estate-ease-plum.vercel.app",
+  authDomain: "estateease-341e7.firebaseapp.com",
   projectId: "estateease-341e7",
   storageBucket: "estateease-341e7.firebasestorage.app",
   messagingSenderId: "500643906911",
