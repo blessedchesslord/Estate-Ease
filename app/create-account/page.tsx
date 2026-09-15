@@ -73,7 +73,7 @@ const Create = () => {
           <input type="checkbox" className="form-checkbox h-5 w-5 text-blue-600 cursor-pointer" />
           <span className="text-sm text-gray-700">I agree to all Terms, Privacy Policy and Fees</span>
         </label>
-        <Link href="/create-account" className='w-full mt-4 inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-[#EE7421] hover:bg-[#CC661A] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#EE7421]'>
+        <Link href="/dashboard" className='w-full mt-4 inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-[#EE7421] hover:bg-[#CC661A] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#EE7421]'>
           Sign Up
         </Link>
       </form>
