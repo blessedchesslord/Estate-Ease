@@ -9,9 +9,26 @@ import Link from 'next/link'
 import { ImRocket } from 'react-icons/im'
 
 const Create = () => {
-  const [loading, isLoading] = useState(false)
-  const [error, setError] = useState(false)
-  const router = useRouter()
+  const [loading, isLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function handleRedirectResult(){
+      try{
+        const result = await getRedirectResult(auth);
+        if (!mounted) return;
+        if (result?.user){
+          router.replace("/dashboard")
+        }
+      }
+      catch{
+        
+      }
+    }
+  })
 
   return (
     <>
@@ -52,7 +69,7 @@ const Create = () => {
             <input type="password" id="password_confirmation" name="password_confirmation" className='block w-full h-13 border border-gray-300 rounded-[10px] sm:text-sm pt-1 pb-1 pl-5 pr-5 placeholder: text-gray-300' placeholder='6+ characters' />
           </div>
         </div>
-        <label className="flex items-center justify-start gap-2 cursor-pointer w-full">
+        <label className="flex items-start justify-start gap-2 cursor-pointer w-full">
           <input type="checkbox" className="form-checkbox h-5 w-5 text-blue-600 cursor-pointer" />
           <span className="text-sm text-gray-700">I agree to all Terms, Privacy Policy and Fees</span>
         </label>
