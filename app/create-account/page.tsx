@@ -1,7 +1,18 @@
+"use client"
+
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { getRedirectResult, signInWithRedirect } from 'firebase/auth'
+import { auth, googleProvider } from '@/lib/firebase'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ImRocket } from 'react-icons/im'
 
 const Create = () => {
+  const [loading, isLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const router = useRouter()
+
   return (
     <>
     <div className='flex flex-col items-start justify-center bg-[#EE7421] pt-10 pr-10 pb-5 pl-10 gap-5'>
@@ -41,6 +52,10 @@ const Create = () => {
             <input type="password" id="password_confirmation" name="password_confirmation" className='block w-full h-13 border border-gray-300 rounded-[10px] sm:text-sm pt-1 pb-1 pl-5 pr-5 placeholder: text-gray-300' placeholder='6+ characters' />
           </div>
         </div>
+        <label className="flex items-center justify-start gap-2 cursor-pointer w-full">
+          <input type="checkbox" className="form-checkbox h-5 w-5 text-blue-600 cursor-pointer" />
+          <span className="text-sm text-gray-700">I agree to all Terms, Privacy Policy and Fees</span>
+        </label>
         <Link href="/create-account" className='mt-4 inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-[#EE7421] hover:bg-[#CC661A] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#EE7421]'>
           Create Account
         </Link>
