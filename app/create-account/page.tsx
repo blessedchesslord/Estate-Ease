@@ -24,11 +24,34 @@ const Create = () => {
           router.replace("/dashboard")
         }
       }
-      catch{
+      catch (err: unknown){
+        if (!mounted) return;
+        
+        const message = err instanceof Error ? err.message : "google sign in failed"
+        setError(message);
+        isLoading(false)
+      }
 
+      handleRedirectResult();
+      return () => {
+        mounted = false;
       }
     }
-  })
+  }, [router])
+
+  async function handleGoogleSignIn(){
+    setError(null);
+    isLoading(true);
+
+    try{
+      await signInWithRedirect(auth, googleProvider);
+    }
+    catch(err: unknown){
+      const message = err instanceof Error ? err.message : "unable to connect to google"
+      setError(message);
+      isLoading(false);
+    }
+  }
 
   return (
     <>
@@ -41,8 +64,9 @@ const Create = () => {
     <div className='flex flex-col items-start justify-center max-h-fit w-full pt-10 pr-10 pb-20 pl-10 gap-5 bg-white'>
       <h1 className='text-black text-[15px] font-bold'>Create Account</h1>
       <div className='flex flex-col items-center justify-between w-full gap-7'>
-        <button className='flex items-center justify-center w-full border border-gray-300 rounded-[10px] px-4 py-2 gap-2 text-xs text-gray-300'>
-          <Image src="/images/1298745_google_brand_branding_logo_network_icon 1.png" alt="Google Icon" width={10} height={10} />Login with Google
+        <button onClick={handleGoogleSignIn} className='flex items-center justify-center w-full border border-gray-300 rounded-[10px] px-4 py-2 gap-2 text-xs text-gray-300'>
+          <Image src="/images/1298745_google_brand_branding_logo_network_icon 1.png" alt="Google Icon" width={10} height={10} />
+          {loading ? "Connecting to google" : "Login with google"}
         </button>
         <div className='flex items-center justify-between w-full'>
           <hr className='w-1/4 border-black' />
@@ -73,9 +97,9 @@ const Create = () => {
           <input type="checkbox" className="form-checkbox h-5 w-5 text-blue-600 cursor-pointer" />
           <span className="text-sm text-gray-700">I agree to all Terms, Privacy Policy and Fees</span>
         </label>
-        <Link href="/dashboard" className='w-full mt-4 inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-[#EE7421] hover:bg-[#CC661A] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#EE7421]'>
+        <button className='w-full mt-4 inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-[#EE7421] hover:bg-[#CC661A] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#EE7421]'>
           Sign Up
-        </Link>
+        </button>
       </form>
     </div>
     </>
