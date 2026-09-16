@@ -2,18 +2,21 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { getRedirectResult, signInWithRedirect } from 'firebase/auth'
+import { getRedirectResult, signInWithRedirect, signInWithPopup } from 'firebase/auth'
 import { auth, googleProvider } from '@/lib/firebase'
 import Image from 'next/image'
-import Link from 'next/link'
-import { ImRocket } from 'react-icons/im'
+
+const useRedirectFlow = process.env.NODE_ENV === "production";
 
 const Create = () => {
+  const [agree, setAgreed] = useState(false);
   const [loading, isLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
+    if (!useRedirectFlow) return;
+
     let mounted = true;
 
     async function handleRedirectResult(){
@@ -44,7 +47,16 @@ const Create = () => {
     isLoading(true);
 
     try{
-      await signInWithRedirect(auth, googleProvider);
+      if (useRedirectFlow){
+        await signInWithRedirect(auth, googleProvider);
+      }
+      else{
+        const result = await signInWithPopup(auth, googleProvider);
+        if (result?.user){
+          router.push("/dashboard");
+        }
+        isLoading(false);
+      }
     }
     catch(err: unknown){
       const message = err instanceof Error ? err.message : "unable to connect to google"
